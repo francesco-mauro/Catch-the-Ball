@@ -3,7 +3,7 @@ const player = document.getElementById("player");
 const ball = document.getElementById("ball");
 const scoreDisplay = document.getElementById("score");
 
-let playerSpeed = 10;
+let playerSpeed = 30;
 let ballSpeed = 5;
 let score = 0;
 let ballFallingInterval;
