@@ -1,14 +1,23 @@
-
 const player = document.getElementById("player");
 const ball = document.getElementById("ball");
 const scoreDisplay = document.getElementById("score");
 
-let playerSpeed = 30;
-let ballSpeed = 5;
-let score = 0;
-let ballFallingInterval;
+// Impostazioni iniziali del gioco
+let playerSpeed = 20; // Velocità del giocatore
+let ballSpeed = 2;    // Velocità della palla
+let score = 0;        // Punteggio iniziale
+let ballFallingInterval; // Intervallo per far cadere la palla
 
+// Funzione per aggiornare il punteggio con l'effetto di transizione
+function updateScore() {
+    scoreDisplay.textContent = `Punteggio: ${score}`;
+    scoreDisplay.classList.add('active');
+    setTimeout(() => {
+        scoreDisplay.classList.remove('active');
+    }, 300);
+}
 
+// Movimento del giocatore
 document.addEventListener("keydown", (event) => {
     const playerRect = player.getBoundingClientRect();
     const containerRect = player.parentElement.getBoundingClientRect();
@@ -20,37 +29,41 @@ document.addEventListener("keydown", (event) => {
     }
 });
 
-
+// Funzione per far cadere la palla
 function dropBall() {
+    // Imposta la posizione iniziale della palla
     ball.style.top = "0px";
+    // Palla appare in posizione casuale all'interno del contenitore
     ball.style.left = `${Math.random() * (470)}px`; 
     
+    // Avvia il movimento della palla verso il basso
     ballFallingInterval = setInterval(() => {
         const ballRect = ball.getBoundingClientRect();
         const playerRect = player.getBoundingClientRect();
         const containerRect = player.parentElement.getBoundingClientRect();
         
-        
+        // Verifica se la palla ha raggiunto il fondo del contenitore
         if (ballRect.bottom >= containerRect.bottom) {
+            // Controlla se il giocatore ha catturato la palla
             if (ballRect.left >= playerRect.left && ballRect.right <= playerRect.right) {
-                
-                score++;
-                scoreDisplay.textContent = `Punteggio: ${score}`;
-                clearInterval(ballFallingInterval);
-                dropBall();
+                score++; // Incrementa il punteggio
+                updateScore(); // Aggiorna il punteggio con effetto
+                clearInterval(ballFallingInterval); // Ferma il movimento della palla
+                dropBall(); // Ricomincia con una nuova palla
             } else {
-                
+                // Se la palla non viene catturata, il gioco finisce
                 alert(`Gioco terminato! Punteggio finale: ${score}`);
-                clearInterval(ballFallingInterval);
-                score = 0;
-                scoreDisplay.textContent = `Punteggio: 0`;
-                dropBall();
+                clearInterval(ballFallingInterval); // Ferma il movimento della palla
+                score = 0; // Reimposta il punteggio
+                updateScore(); // Aggiorna il punteggio a zero
+                dropBall(); // Ricomincia con una nuova palla
             }
         } else {
+            // Continua a far cadere la palla
             ball.style.top = `${ballRect.top - containerRect.top + ballSpeed}px`;
         }
-    }, 30);
+    }, 30); // Intervallo di 30 ms per un movimento fluido
 }
 
-
+// Inizia il gioco facendo cadere la palla
 dropBall();

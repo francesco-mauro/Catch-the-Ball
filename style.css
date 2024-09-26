@@ -1,25 +1,30 @@
-
 #game-container {
     position: relative;
     width: 500px;
     height: 600px;
-    border: 2px solid #000;
-    background-color: #f0f0f0;
+    border: 2px solid #2c3e50;
+    background: linear-gradient(135deg, #e0f7fa, #ffffff);
     margin: 0 auto;
     overflow: hidden;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
 }
-
 
 #player {
     position: absolute;
     bottom: 0;
-    left: 200px; 
-    width: 100px;  
+    left: 200px;
+    width: 100px;
     height: 50px;
-    background-color: #3498db;
-    border-radius: 10%;
+    background: linear-gradient(135deg, #3498db, #2980b9);
+    border-radius: 10px;
+    transition: transform 0.2s; 
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
 }
 
+#player:hover {
+    transform: scale(1.05);
+}
 
 #ball {
     position: absolute;
@@ -27,15 +32,40 @@
     left: 250px;
     width: 30px;
     height: 30px;
-    background-color: #e74c3c;
+    background: radial-gradient(circle, #e74c3c, #c0392b);
     border-radius: 50%;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+    transition: transform 0.2s; 
 }
 
-/* Punteggio */
+#ball {
+    animation: bounce 0.5s infinite alternate;
+}
+
+@keyframes bounce {
+    from {
+        transform: translateY(0);
+    }
+    to {
+        transform: translateY(5px);
+    }
+}
+
 #score {
     position: absolute;
     top: 10px;
     left: 10px;
-    font-size: 18px;
+    font-size: 20px;
     font-weight: bold;
+    color: #34495e;
+    background: #ecf0f1;
+    padding: 5px 10px;
+    border-radius: 5px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.2s;
+}
+
+#score.active {
+    background-color: #2ecc71;
+    color: #fff;
 }
