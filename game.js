@@ -1,6 +1,7 @@
 const player = document.getElementById("player");
 const ball = document.getElementById("ball");
 const scoreDisplay = document.getElementById("score");
+const startButton = document.getElementById("start-button"); 
 
 // Impostazioni iniziali del gioco
 let playerSpeed = 20; // Velocità del giocatore
@@ -33,8 +34,7 @@ document.addEventListener("keydown", (event) => {
 function dropBall() {
     // Imposta la posizione iniziale della palla
     ball.style.top = "0px";
-    // Palla appare in posizione casuale all'interno del contenitore
-    ball.style.left = `${Math.random() * (470)}px`; 
+    ball.style.left = `${Math.random() * (470)}px`; // Palla appare in posizione casuale
     
     // Avvia il movimento della palla verso il basso
     ballFallingInterval = setInterval(() => {
@@ -53,17 +53,20 @@ function dropBall() {
             } else {
                 // Se la palla non viene catturata, il gioco finisce
                 alert(`Gioco terminato! Punteggio finale: ${score}`);
-                clearInterval(ballFallingInterval); // Ferma il movimento della palla
-                score = 0; // Reimposta il punteggio
-                updateScore(); // Aggiorna il punteggio a zero
-                dropBall(); // Ricomincia con una nuova palla
+                clearInterval(ballFallingInterval); 
+                score = 0; 
+                updateScore(); 
+                startButton.style.visibility = 'visible'; // Rendi visibile il pulsante Start
             }
         } else {
             // Continua a far cadere la palla
             ball.style.top = `${ballRect.top - containerRect.top + ballSpeed}px`;
         }
-    }, 30); // Intervallo di 30 ms per un movimento fluido
+    }, 30); // Intervallo di 30 ms
 }
 
-// Inizia il gioco facendo cadere la palla
-dropBall();
+// Funzione avviare il gioco quando si preme il pulsante Start
+startButton.addEventListener("click", () => {
+    startButton.style.visibility = 'hidden'; // Nasconde il pulsante mantenendo il suo spazio
+    dropBall(); 
+});
