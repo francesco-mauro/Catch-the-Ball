@@ -9,9 +9,15 @@ let ballSpeed = 2;    // Velocità della palla
 let score = 0;        // Punteggio iniziale
 let ballFallingInterval; // Intervallo per far cadere la palla
 
+// Inizializza il punteggio massimo dal localStorage o a 0 se non esiste
+let highScore = localStorage.getItem('highScore') ? parseInt(localStorage.getItem('highScore')) : 0;
+
+// Aggiorna il punteggio all'inizio
+updateScore();
+
 // Funzione per aggiornare il punteggio con l'effetto di transizione
 function updateScore() {
-    scoreDisplay.textContent = `Punteggio: ${score}`;
+    scoreDisplay.textContent = `Punteggio: ${score} | Record: ${highScore}`;
     scoreDisplay.classList.add('active');
     setTimeout(() => {
         scoreDisplay.classList.remove('active');
@@ -35,8 +41,6 @@ function dropBall() {
     // Imposta la posizione iniziale della palla
     ball.style.top = "0px";
     ball.style.left = `${Math.random() * (470)}px`; // Palla appare in posizione casuale
-    // Incrementa la velocità della palla in base al punteggio
-    ballSpeed = 2 + score * 0.5;
     
     // Avvia il movimento della palla verso il basso
     ballFallingInterval = setInterval(() => {
@@ -54,7 +58,14 @@ function dropBall() {
                 dropBall(); // Ricomincia con una nuova palla
             } else {
                 // Se la palla non viene catturata, il gioco finisce
-                alert(`Gioco terminato! Punteggio finale: ${score}`);
+                // Verifica se il punteggio corrente supera il record
+                if (score > highScore) {
+                    highScore = score;
+                    localStorage.setItem('highScore', highScore); // Salva il nuovo record
+                    alert(`Nuovo record! Punteggio finale: ${score}`);
+                } else {
+                    alert(`Gioco terminato! Punteggio finale: ${score}`);
+                }
                 clearInterval(ballFallingInterval); 
                 score = 0; 
                 updateScore(); 
@@ -67,7 +78,7 @@ function dropBall() {
     }, 30); // Intervallo di 30 ms
 }
 
-// Funzione avviare il gioco quando si preme il pulsante Start
+// Funzione per avviare il gioco quando si preme il pulsante Start
 startButton.addEventListener("click", () => {
     startButton.style.visibility = 'hidden'; // Nasconde il pulsante mantenendo il suo spazio
     dropBall(); 
