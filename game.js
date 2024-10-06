@@ -35,6 +35,8 @@ function dropBall() {
     // Imposta la posizione iniziale della palla
     ball.style.top = "0px";
     ball.style.left = `${Math.random() * (470)}px`; // Palla appare in posizione casuale
+    // Incrementa la velocità della palla in base al punteggio
+    ballSpeed = 2 + score * 0.5;
     
     // Avvia il movimento della palla verso il basso
     ballFallingInterval = setInterval(() => {
