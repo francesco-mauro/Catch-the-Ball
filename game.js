@@ -1,7 +1,7 @@
 const player = document.getElementById("player");
 const ball = document.getElementById("ball");
 const scoreDisplay = document.getElementById("score");
-const startButton = document.getElementById("start-button"); 
+const startButton = document.getElementById("start-button");
 
 // Impostazioni iniziali del gioco
 let playerSpeed = 20; // Velocità del giocatore
@@ -28,7 +28,7 @@ function updateScore() {
 document.addEventListener("keydown", (event) => {
     const playerRect = player.getBoundingClientRect();
     const containerRect = player.parentElement.getBoundingClientRect();
-    
+
     if (event.key === "ArrowLeft" && playerRect.left > containerRect.left) {
         player.style.left = `${playerRect.left - containerRect.left - playerSpeed}px`;
     } else if (event.key === "ArrowRight" && playerRect.right < containerRect.right) {
@@ -41,13 +41,14 @@ function dropBall() {
     // Imposta la posizione iniziale della palla
     ball.style.top = "0px";
     ball.style.left = `${Math.random() * (470)}px`; // Palla appare in posizione casuale
-    
+    ballSpeed = 2 + score * 0.5; // Aumenta la velocità in base al punteggio
+
     // Avvia il movimento della palla verso il basso
     ballFallingInterval = setInterval(() => {
         const ballRect = ball.getBoundingClientRect();
         const playerRect = player.getBoundingClientRect();
         const containerRect = player.parentElement.getBoundingClientRect();
-        
+
         // Verifica se la palla ha raggiunto il fondo del contenitore
         if (ballRect.bottom >= containerRect.bottom) {
             // Controlla se il giocatore ha catturato la palla
@@ -66,9 +67,9 @@ function dropBall() {
                 } else {
                     alert(`Gioco terminato! Punteggio finale: ${score}`);
                 }
-                clearInterval(ballFallingInterval); 
-                score = 0; 
-                updateScore(); 
+                clearInterval(ballFallingInterval);
+                score = 0;
+                updateScore();
                 startButton.style.visibility = 'visible'; // Rendi visibile il pulsante Start
             }
         } else {
@@ -81,5 +82,5 @@ function dropBall() {
 // Funzione per avviare il gioco quando si preme il pulsante Start
 startButton.addEventListener("click", () => {
     startButton.style.visibility = 'hidden'; // Nasconde il pulsante mantenendo il suo spazio
-    dropBall(); 
+    dropBall();
 });
